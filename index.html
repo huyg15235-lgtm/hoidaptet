@@ -2,158 +2,197 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>AI 10A7 – Hỏi đáp Tết Việt</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Hỏi – Đáp Tết Việt | Lớp 10A7</title>
 
 <style>
+*{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{
   margin:0;
-  font-family:system-ui,sans-serif;
-  background:radial-gradient(circle at top,#ff3b3b,#7a0000);
+  min-height:100vh;
+  background:linear-gradient(135deg,#7b0000,#d40000,#ffb703);
   overflow:hidden;
+  color:#fff;
 }
 
-/* HOA MAI */
+/* ===== HOA MAI ===== */
 .mai{
   position:fixed;
-  top:-40px;
-  animation:fall linear infinite;
-  pointer-events:none;
+  width:20px;height:20px;
+  background:radial-gradient(circle,#ffd000,#ff9f00);
+  border-radius:50%;
+  animation:fall 10s linear infinite;
+  opacity:.8;
 }
 @keyframes fall{
-  to{transform:translateY(110vh) rotate(360deg);}
+  from{transform:translateY(-50px)}
+  to{transform:translateY(110vh)}
 }
 
-/* PHÁO HOA */
+/* ===== PHÁO HOA ===== */
 .firework{
   position:fixed;
   width:6px;height:6px;
-  background:gold;
+  background:#fff;
   border-radius:50%;
-  animation:boom 1.2s ease-out forwards;
+  animation:boom 2s infinite;
 }
 @keyframes boom{
-  from{transform:scale(0);opacity:1;}
-  to{transform:scale(7);opacity:0;}
+  0%{transform:scale(0);opacity:1}
+  100%{transform:scale(8);opacity:0}
 }
 
-/* APP */
-.app{
-  max-width:420px;
-  height:100vh;
-  margin:auto;
-  background:#fff;
-  display:flex;
-  flex-direction:column;
+/* ===== KHUNG AI ===== */
+.container{
   position:relative;
-  z-index:10;
+  z-index:2;
+  max-width:900px;
+  margin:40px auto;
+  background:rgba(0,0,0,.4);
+  border-radius:20px;
+  padding:25px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 0 30px rgba(0,0,0,.5);
 }
-header{
-  background:#b30000;
-  color:#ffd700;
+
+h1{
   text-align:center;
-  padding:14px;
-  font-weight:700;
+  margin-bottom:5px;
+  color:#ffd700;
 }
+.subtitle{
+  text-align:center;
+  opacity:.9;
+  margin-bottom:20px;
+}
+
 .chat{
-  flex:1;
-  padding:12px;
+  height:350px;
   overflow-y:auto;
-  background:#fff7f0;
+  background:rgba(255,255,255,.1);
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:15px;
 }
-.msg{margin-bottom:10px;}
-.user{text-align:right;color:#b30000;}
-.ai{text-align:left;color:#004d1a;}
+
+.msg{
+  margin-bottom:12px;
+  line-height:1.5;
+}
+.user{color:#9be7ff}
+.ai{color:#ffe066}
+
 .input-box{
   display:flex;
-  padding:10px;
-  border-top:1px solid #ddd;
+  gap:10px;
 }
 input{
   flex:1;
-  padding:10px;
-  font-size:15px;
-  border-radius:8px;
-  border:1px solid #ccc;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
 }
 button{
-  margin-left:8px;
-  padding:10px 14px;
+  padding:12px 20px;
   border:none;
-  border-radius:8px;
+  border-radius:12px;
   background:#ffd700;
-  color:#b30000;
   font-weight:bold;
+  cursor:pointer;
+}
+button:hover{background:#ffea00}
+
+footer{
+  text-align:center;
+  margin-top:10px;
+  font-size:14px;
+  opacity:.85;
 }
 </style>
 </head>
 
 <body>
 
+<!-- HOA MAI -->
 <script>
-/* HOA MAI */
-for(let i=0;i<30;i++){
-  const m=document.createElement("div");
+for(let i=0;i<20;i++){
+  let m=document.createElement("div");
   m.className="mai";
-  m.innerText="🌼";
-  m.style.left=Math.random()*100+"vw";
-  m.style.fontSize=16+Math.random()*16+"px";
-  m.style.animationDuration=5+Math.random()*6+"s";
+  m.style.left=Math.random()*100+"%";
+  m.style.animationDuration=8+Math.random()*5+"s";
   document.body.appendChild(m);
 }
-/* PHÁO HOA */
-setInterval(()=>{
-  const f=document.createElement("div");
+for(let i=0;i<6;i++){
+  let f=document.createElement("div");
   f.className="firework";
-  f.style.left=Math.random()*100+"vw";
-  f.style.top=Math.random()*40+"vh";
+  f.style.left=Math.random()*100+"%";
+  f.style.top=Math.random()*100+"%";
+  f.style.animationDelay=Math.random()*2+"s";
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),1200);
-},800);
+}
 </script>
 
-<div class="app">
-  <header>🧧 AI 10A7 – Hỏi đáp Tết Việt</header>
+<div class="container">
+  <h1>🤖 AI HỎI – ĐÁP TẾT VIỆT</h1>
+  <div class="subtitle">Lớp 10A7 – THPT Bình Gia</div>
 
   <div class="chat" id="chat">
-    <div class="msg ai">
-      AI 10A7: Xin chào! 🤖✨<br>
-      Mình là trợ lý thông minh của lớp 10A7.<br>
-      Bạn hãy hỏi mình về phong tục, ý nghĩa Tết Việt nhé!
-    </div>
+    <div class="msg ai">🎆 Xin chào! Mình là AI Tết của lớp 10A7.  
+    Bạn có thể hỏi mình về phong tục, ý nghĩa, lời chúc Tết 🇻🇳</div>
   </div>
 
   <div class="input-box">
-    <input id="q" placeholder="Ví dụ: Vì sao có bánh chưng?" />
+    <input id="q" placeholder="Nhập câu hỏi về Tết Việt...">
     <button onclick="ask()">Gửi</button>
   </div>
+
+  <footer>🧧 STEM – Truyền thống & Công nghệ | Xuân 2026</footer>
 </div>
 
 <script>
-const WORKER_URL="https://ai-10a7.yourname.workers.dev"; // 👈 DÁN LINK WORKER
+const chat=document.getElementById("chat");
+const input=document.getElementById("q");
 
-async function ask(){
-  const q=document.getElementById("q").value.trim();
+const answers=[
+  {k:["tết là gì"],v:"Tết Nguyên Đán là dịp lễ quan trọng nhất của người Việt, đánh dấu sự khởi đầu năm mới âm lịch."},
+  {k:["ý nghĩa"],v:"Tết là thời điểm đoàn viên, tri ân tổ tiên, hướng tới khởi đầu mới tốt đẹp."},
+  {k:["bánh chưng"],v:"Bánh chưng tượng trưng cho đất, thể hiện lòng biết ơn trời đất và tổ tiên."},
+  {k:["lì xì","mừng tuổi"],v:"Lì xì mang ý nghĩa chúc may mắn, sức khỏe và tài lộc đầu năm."},
+  {k:["hoa mai"],v:"Hoa mai tượng trưng cho phú quý, may mắn và sức sống mùa xuân."},
+  {k:["hoa đào"],v:"Hoa đào tượng trưng cho sự sinh sôi, bình an và hạnh phúc."},
+  {k:["phong tục"],v:"Một số phong tục Tết: dọn nhà, cúng giao thừa, chúc Tết, lì xì, xông đất."},
+  {k:["chúc tết"],v:"Chúc bạn năm mới an khang – thịnh vượng – học tập tỏa sáng cùng 10A7 ✨"}
+];
+
+function ask(){
+  const q=input.value.trim();
   if(!q) return;
+  add("user","🧑‍💬 "+q);
+  let r="🤔 Mình chưa hiểu lắm, bạn thử hỏi về: bánh chưng, lì xì, ý nghĩa Tết nhé!";
+  const l=q.toLowerCase();
+  for(let a of answers){
+    if(a.k.some(k=>l.includes(k))){
+      r=a.v; break;
+    }
+  }
+  setTimeout(()=>add("ai","🤖 "+r),500);
+  input.value="";
+}
 
-  const chat=document.getElementById("chat");
-  chat.innerHTML+=`<div class="msg user">Bạn: ${q}</div>`;
-  chat.scrollTop=chat.scrollHeight;
-  document.getElementById("q").value="";
-
-  chat.innerHTML+=`<div class="msg ai">AI 10A7: Đang trả lời...</div>`;
-
-  const res=await fetch(WORKER_URL,{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({ question:q })
-  });
-
-  const data=await res.json();
-  chat.lastChild.innerHTML="AI 10A7: "+data.answer;
+function add(type,text){
+  const d=document.createElement("div");
+  d.className="msg "+type;
+  d.innerText=text;
+  chat.appendChild(d);
   chat.scrollTop=chat.scrollHeight;
 }
+
+input.addEventListener("keydown",e=>{if(e.key==="Enter")ask()});
 </script>
+<a href="https://huyg15235-lgtm.github.io/tet10a7/#" class="back-btn">
+  ⬅ Quay lại Trang Tết 10A7
+</a>
 
 </body>
 </html>
