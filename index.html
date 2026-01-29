@@ -2,59 +2,52 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>AI Tết Việt – Hỏi Đáp cùng AI </title>
+<title>AI 10A7 – Hỏi đáp Tết Việt</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  font-family:system-ui, sans-serif;
+  font-family:system-ui,sans-serif;
   background:radial-gradient(circle at top,#ff3b3b,#7a0000);
   overflow:hidden;
 }
 
-/* ===== HOA MAI ===== */
+/* HOA MAI */
 .mai{
   position:fixed;
-  top:-50px;
-  font-size:20px;
+  top:-40px;
   animation:fall linear infinite;
-  opacity:0.9;
+  pointer-events:none;
 }
-
 @keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(360deg);
-  }
+  to{transform:translateY(110vh) rotate(360deg);}
 }
 
-/* ===== PHÁO HOA ===== */
+/* PHÁO HOA */
 .firework{
   position:fixed;
-  width:6px;
-  height:6px;
+  width:6px;height:6px;
   background:gold;
   border-radius:50%;
-  animation:explode 1.5s ease-out infinite;
+  animation:boom 1.2s ease-out forwards;
+}
+@keyframes boom{
+  from{transform:scale(0);opacity:1;}
+  to{transform:scale(7);opacity:0;}
 }
 
-@keyframes explode{
-  0%{transform:scale(0);opacity:1;}
-  100%{transform:scale(8);opacity:0;}
-}
-
-/* ===== APP ===== */
+/* APP */
 .app{
-  position:relative;
-  z-index:10;
   max-width:420px;
   height:100vh;
   margin:auto;
   background:#fff;
   display:flex;
   flex-direction:column;
+  position:relative;
+  z-index:10;
 }
-
 header{
   background:#b30000;
   color:#ffd700;
@@ -62,24 +55,20 @@ header{
   padding:14px;
   font-weight:700;
 }
-
 .chat{
   flex:1;
   padding:12px;
   overflow-y:auto;
   background:#fff7f0;
 }
-
-.msg{margin-bottom:10px;line-height:1.4;}
+.msg{margin-bottom:10px;}
 .user{text-align:right;color:#b30000;}
 .ai{text-align:left;color:#004d1a;}
-
 .input-box{
   display:flex;
   padding:10px;
   border-top:1px solid #ddd;
 }
-
 input{
   flex:1;
   padding:10px;
@@ -87,7 +76,6 @@ input{
   border-radius:8px;
   border:1px solid #ccc;
 }
-
 button{
   margin-left:8px;
   padding:10px 14px;
@@ -102,46 +90,47 @@ button{
 
 <body>
 
-<!-- HOA MAI -->
 <script>
-for(let i=0;i<25;i++){
+/* HOA MAI */
+for(let i=0;i<30;i++){
   const m=document.createElement("div");
   m.className="mai";
-  m.innerHTML="🌼";
+  m.innerText="🌼";
   m.style.left=Math.random()*100+"vw";
-  m.style.animationDuration=5+Math.random()*5+"s";
-  m.style.fontSize=16+Math.random()*14+"px";
+  m.style.fontSize=16+Math.random()*16+"px";
+  m.style.animationDuration=5+Math.random()*6+"s";
   document.body.appendChild(m);
 }
-</script>
-
-<!-- PHÁO HOA -->
-<script>
+/* PHÁO HOA */
 setInterval(()=>{
   const f=document.createElement("div");
   f.className="firework";
   f.style.left=Math.random()*100+"vw";
   f.style.top=Math.random()*40+"vh";
   document.body.appendChild(f);
-  setTimeout(()=>f.remove(),1500);
-},700);
+  setTimeout(()=>f.remove(),1200);
+},800);
 </script>
 
 <div class="app">
-  <header>🧧 AI hỏi – đáp về Tết Việt</header>
+  <header>🧧 AI 10A7 – Hỏi đáp Tết Việt</header>
 
   <div class="chat" id="chat">
-    <div class="msg ai">AI: Chào mừng bạn đến với không gian Tết Việt 🌸🎆</div>
+    <div class="msg ai">
+      AI 10A7: Xin chào! 🤖✨<br>
+      Mình là trợ lý thông minh của lớp 10A7.<br>
+      Bạn hãy hỏi mình về phong tục, ý nghĩa Tết Việt nhé!
+    </div>
   </div>
 
   <div class="input-box">
-    <input id="q" placeholder="Hỏi AI về phong tục Tết..." />
+    <input id="q" placeholder="Ví dụ: Vì sao có bánh chưng?" />
     <button onclick="ask()">Gửi</button>
   </div>
 </div>
 
 <script>
-const API_KEY="DAN_API_KEY_CUA_BAN";
+const WORKER_URL="https://ai-10a7.yourname.workers.dev"; // 👈 DÁN LINK WORKER
 
 async function ask(){
   const q=document.getElementById("q").value.trim();
@@ -152,25 +141,16 @@ async function ask(){
   chat.scrollTop=chat.scrollHeight;
   document.getElementById("q").value="";
 
-  chat.innerHTML+=`<div class="msg ai">AI: Đang trả lời...</div>`;
+  chat.innerHTML+=`<div class="msg ai">AI 10A7: Đang trả lời...</div>`;
 
-  const res=await fetch("https://api.openai.com/v1/chat/completions",{
+  const res=await fetch(WORKER_URL,{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+API_KEY
-    },
-    body:JSON.stringify({
-      model:"gpt-4o-mini",
-      messages:[
-        {role:"system",content:"Bạn là AI giải thích văn hóa và phong tục Tết Việt Nam cho học sinh, dễ hiểu, ngắn gọn."},
-        {role:"user",content:q}
-      ]
-    })
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ question:q })
   });
 
   const data=await res.json();
-  chat.lastChild.innerHTML="AI: "+data.choices[0].message.content;
+  chat.lastChild.innerHTML="AI 10A7: "+data.answer;
   chat.scrollTop=chat.scrollHeight;
 }
 </script>
