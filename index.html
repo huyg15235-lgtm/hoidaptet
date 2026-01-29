@@ -109,6 +109,29 @@ footer{
   font-size:14px;
   opacity:.85;
 }
+.back-btn{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  padding:12px 20px;
+  background:linear-gradient(135deg,#c30000,#ff4d4d);
+  color:#fff8dc;
+  text-decoration:none;
+  font-weight:600;
+  border-radius:30px;
+  box-shadow:0 8px 20px rgba(195,0,0,0.4);
+  transition:all 0.3s ease;
+  z-index:9999;
+  font-family:'Segoe UI',sans-serif;
+  border:2px solid #ffcc00;
+}
+
+.back-btn:hover{
+  background:linear-gradient(135deg,#ffcc00,#ff9900);
+  color:#8b0000;
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 12px 25px rgba(255,153,0,0.5);
+}
 </style>
 </head>
 
@@ -164,7 +187,12 @@ const answers=[
   {k:["phong tục"],v:"Một số phong tục Tết: dọn nhà, cúng giao thừa, chúc Tết, lì xì, xông đất."},
   {k:["chúc tết"],v:"Chúc bạn năm mới an khang – thịnh vượng – học tập tỏa sáng cùng 10A7 ✨"}
 ];
-
+  {k:["bao nhiêu ngày nữa đến tết"],v:()=>{
+  const now=new Date();
+  const tet=new Date(now.getFullYear()+1,0,29); // chỉnh theo Tết âm
+  const diff=Math.ceil((tet-now)/(1000*60*60*24));
+  return `Còn khoảng ${diff} ngày nữa là đến Tết 🎉`;
+  }}
 function ask(){
   const q=input.value.trim();
   if(!q) return;
