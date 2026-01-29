@@ -75,12 +75,37 @@ h1{
   margin-bottom:15px;
 }
 
+/* ===== CHAT BONG BÓNG XỊN ===== */
 .msg{
+  max-width:75%;
+  padding:12px 16px;
   margin-bottom:12px;
-  line-height:1.5;
+  border-radius:18px;
+  line-height:1.6;
+  animation:pop .25s ease;
+  word-wrap:break-word;
 }
-.user{color:#9be7ff}
-.ai{color:#ffe066}
+
+@keyframes pop{
+  from{transform:scale(.9);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.user{
+  margin-left:auto;
+  background:linear-gradient(135deg,#00c6ff,#0072ff);
+  color:#fff;
+  border-bottom-right-radius:5px;
+  box-shadow:0 6px 18px rgba(0,114,255,.4);
+}
+
+.ai{
+  margin-right:auto;
+  background:linear-gradient(135deg,#ffe259,#ffa751);
+  color:#7a3b00;
+  border-bottom-left-radius:5px;
+  box-shadow:0 6px 18px rgba(255,167,81,.45);
+}
 
 .input-box{
   display:flex;
@@ -185,25 +210,34 @@ const answers=[
   {k:["hoa mai"],v:"Hoa mai tượng trưng cho phú quý, may mắn và sức sống mùa xuân."},
   {k:["hoa đào"],v:"Hoa đào tượng trưng cho sự sinh sôi, bình an và hạnh phúc."},
   {k:["phong tục"],v:"Một số phong tục Tết: dọn nhà, cúng giao thừa, chúc Tết, lì xì, xông đất."},
-  {k:["chúc tết"],v:"Chúc bạn năm mới an khang – thịnh vượng – học tập tỏa sáng cùng 10A7 ✨"}
+  {k:["chúc tết"],v:"Chúc bạn năm mới an khang – thịnh vượng – học tập tỏa sáng cùng 10A7 ✨"},
+  {
+    k:["bao nhiêu ngày nữa đến tết","đếm ngược tết"],
+    v:()=>{
+      const now=new Date();
+      const tet=new Date(now.getFullYear()+1,0,29); // demo
+      const diff=Math.ceil((tet-now)/(1000*60*60*24));
+      return `Còn khoảng ${diff} ngày nữa là đến Tết 🎉`;
+    }
+  }
 ];
-  {k:["bao nhiêu ngày nữa đến tết"],v:()=>{
-  const now=new Date();
-  const tet=new Date(now.getFullYear()+1,0,29); // chỉnh theo Tết âm
-  const diff=Math.ceil((tet-now)/(1000*60*60*24));
-  return `Còn khoảng ${diff} ngày nữa là đến Tết 🎉`;
-  }}
+
 function ask(){
   const q=input.value.trim();
   if(!q) return;
+
   add("user","🧑‍💬 "+q);
-  let r="🤔 Mình chưa hiểu lắm, bạn thử hỏi về: bánh chưng, lì xì, ý nghĩa Tết nhé!";
+
+  let r="🤔 Mình chưa hiểu lắm, bạn thử hỏi về bánh chưng, lì xì, phong tục Tết nhé!";
   const l=q.toLowerCase();
+
   for(let a of answers){
     if(a.k.some(k=>l.includes(k))){
-      r=a.v; break;
+      r = typeof a.v==="function" ? a.v() : a.v;
+      break;
     }
   }
+
   setTimeout(()=>add("ai","🤖 "+r),500);
   input.value="";
 }
@@ -211,17 +245,26 @@ function ask(){
 function add(type,text){
   const d=document.createElement("div");
   d.className="msg "+type;
-  d.innerText=text;
   chat.appendChild(d);
   chat.scrollTop=chat.scrollHeight;
+
+  let i=0;
+  const speed = type==="ai" ? 20 : 10;
+
+  const typing=setInterval(()=>{
+    d.innerText=text.slice(0,i++);
+    chat.scrollTop=chat.scrollHeight;
+    if(i>text.length) clearInterval(typing);
+  },speed);
 }
 
-input.addEventListener("keydown",e=>{if(e.key==="Enter")ask()});
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter") ask();
+});
 </script>
-
-</body>
 <a href="https://huyg15235-lgtm.github.io/tet10a7/#" class="back-btn">
-  ⬅ Quay lại Trang Tết 10A7
+  ⬅ Quay lại Trang Chính 10A7
 </a>
+</body>
 
 </html>
